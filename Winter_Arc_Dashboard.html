@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Winter Arc Dashboard</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;padding:18px;background:linear-gradient(135deg,#0B0F19,#141E30);color:#fff}
+.card{max-width:460px;margin:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:22px}
+h1{margin:0}.date{color:#cbd5e1}.progress{height:8px;background:#253040;border-radius:99px;overflow:hidden;margin:18px 0}.bar{height:100%;width:0;background:#F2B63D}
+.item{background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin:10px 0}.time{display:none;color:#F2B63D;font-size:13px;margin-left:28px;margin-top:6px}
+.badge{float:right;background:rgba(242,182,61,.12);border:1px solid #F2B63D;color:#F2B63D;padding:6px 10px;border-radius:99px;font-size:12px}
+.footer{text-align:center;color:#94a3b8;margin-top:18px}
+</style></head><body>
+<div class="card"><div class="badge" id="score">0/7</div><h1>WINTER ARC</h1><div class="date" id="date"></div><div class="progress"><div class="bar" id="bar"></div></div><div id="list"></div><div class="footer">Move in Silence. Let Results Speak.</div></div>
+<script>
+const habits=["4:00 AM Wake Up","45–60 Min Workout","5–6 Hours Study (PCM/JEE)","1 Reel + 1 LinkedIn + 2 Pinterest Pins","Bhagavad Gita (1 Shlok)","Read 10 Pages","No Unnecessary Scrolling"];
+const d=new Date();date.textContent=d.toLocaleDateString("en-IN",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+const key="winterArc-"+d.toISOString().slice(0,10);const data=JSON.parse(localStorage.getItem(key)||"{}");
+habits.forEach((h,i)=>{const wrap=document.createElement("div");wrap.className="item";const lbl=document.createElement("label");const cb=document.createElement("input");cb.type="checkbox";cb.checked=!!data[i];const s=document.createElement("span");s.textContent=h;const t=document.createElement("div");t.className="time";if(data[i]){t.textContent="Completed • "+data[i];t.style.display="block";}cb.onchange=()=>{if(cb.checked){const tm=new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});data[i]=tm;t.textContent="Completed • "+tm;t.style.display="block";}else{delete data[i];t.style.display="none";}localStorage.setItem(key,JSON.stringify(data));update();};lbl.append(cb,s);wrap.append(lbl,t);list.append(wrap);});
+function update(){const done=Object.keys(data).length;score.textContent=done+"/7";bar.style.width=(done/7*100)+"%";}update();
+</script></body></html>
